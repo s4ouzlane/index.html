@@ -1,0 +1,198 @@
+<html><head><base href="https://example.com/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicTac - Blog de Ofertas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --tertiary-color: #FFD93D;
+            --bg-gradient: linear-gradient(120deg, #FF6B6B, #FFD93D);
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .logo-animation {
+            animation: tick-tock 2s infinite ease-in-out;
+        }
+
+        @keyframes tick-tock {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .navbar-brand svg {
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: var(--tertiary-color);
+        }
+
+        .card {
+            background: #fff;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            filter: brightness(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer {
+            background: #333;
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer h5 {
+            color: var(--tertiary-color);
+        }
+
+        h3, h5 {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <div class="navbar-brand" id="logo">
+                <svg class="logo-animation" width="40" height="40" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="var(--primary-color)" stroke-width="3"/>
+                    <line x1="20" y1="20" x2="20" y2="10" stroke="var(--primary-color)" stroke-width="3"/>
+                    <line x1="20" y1="20" x2="28" y2="20" stroke="var(--primary-color)" stroke-width="3"/>
+                </svg>
+                TicTac
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="inicio" class="container my-5">
+        <div class="row">
+            <!-- Post Form -->
+            <div class="col-md-8 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>Publicar Nueva Oferta</h3>
+                        <form id="offerForm">
+                            <div class="mb-3">
+                                <label class="form-label">Título del Producto</label>
+                                <input id="productName" type="text" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Precio Original</label>
+                                <input id="originalPrice" type="number" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Precio con Descuento</label>
+                                <input id="discountPrice" type="number" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Descripción</label>
+                                <textarea id="description" class="form-control" rows="4" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Enlace de Publicación</label>
+                                <input id="publicationLink" type="url" class="form-control" placeholder="https://ejemplo.com/publicacion">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Publicar Oferta</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 id="nuevaOferta">Nueva Oferta</h3>
+        <div id="recentOffers" class="row">
+            <!-- New offers added dynamically here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h5>Sobre Nosotros</h5>
+            <p>En TicTac, ayudamos a encontrar las mejores ofertas del mercado.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('logo').addEventListener('click', function() {
+            // Scroll to the inicio section
+            document.getElementById('inicio').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('offerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Retrieve form data
+            const productName = document.getElementById('productName').value;
+            const originalPrice = document.getElementById('originalPrice').value;
+            const discountPrice = document.getElementById('discountPrice').value;
+            const description = document.getElementById('description').value;
+            const publicationLink = document.getElementById('publicationLink').value;
+
+            // Create a new offer card
+            const offerCard = document.createElement('div');
+            offerCard.classList.add('col-md-4', 'mb-4');
+            offerCard.innerHTML = `
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">${productName}</h5>
+                        <p class="card-text">
+                            <span class="text-decoration-line-through">$${originalPrice}</span>
+                            <span class="text-danger fs-4 ms-2">$${discountPrice}</span>
+                        </p>
+                        <p class="card-text">${description}</p>
+                        ${publicationLink ? `<a href="${publicationLink}" target="_blank" class="btn btn-primary">Ver Publicación</a>` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Append the new card to the recent offers section
+            document.getElementById('recentOffers').appendChild(offerCard);
+
+            // Smoothly scroll to the "Nueva Oferta" section
+            document.getElementById('nuevaOferta').scrollIntoView({ behavior: 'smooth' });
+
+            // Reset the form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
